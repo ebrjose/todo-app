@@ -17,8 +17,10 @@ COPY --chown=app:app . .
 RUN chmod +x entrypoint.sh \
  && DJANGO_SECRET_KEY=collectstatic python manage.py collectstatic --noinput
 
-USER app
+# Numeric UID so Kubernetes can verify runAsNonRoot without reading /etc/passwd.
+USER 1000:1000
 EXPOSE 8000
 
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--access-logfile", "-"]
+# Settings live in gunicorn.conf.py.
+CMD ["gunicorn"]
