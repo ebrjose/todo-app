@@ -21,7 +21,7 @@ x-backend-env: &backend-env
 
 x-backend: &backend
   build: ./backend
-  image: todo-app-backend:dev
+  image: ghcr.io/ebrjose/todo-app-backend:${IMAGE_TAG:-latest}
   restart: unless-stopped
   environment: *backend-env
 
@@ -63,7 +63,7 @@ services:
 
   frontend:
     build: ./frontend
-    image: todo-app-frontend:dev
+    image: ghcr.io/ebrjose/todo-app-frontend:${IMAGE_TAG:-latest}
     restart: unless-stopped
     ports:
       - "127.0.0.1:6780:80"
